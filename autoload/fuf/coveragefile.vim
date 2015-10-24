@@ -58,7 +58,7 @@ function s:enumItems()
   if !exists('s:cache[key]')
     if has('unix')
       let s:cache[key] = split(system(
-            \  "find . -type f | grep -v '\.svn' | grep -v '\.hg/.*\.i$' | grep -v '.*\.swp'"), "\n")
+            \  "find . -type f | grep -v '" . g:fuf_coveragefile_ignore_regex . "'"), "\n")
     else
       let s:cache[key] = l9#concat(map(copy(g:fuf_coveragefile_globPatterns),
             \                          'fuf#glob(v:val)'))

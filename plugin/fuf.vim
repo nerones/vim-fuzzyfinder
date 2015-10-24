@@ -62,6 +62,7 @@ function s:initialize()
   call l9#defineVariableDefault('g:fuf_coveragefile_switchOrder', 30)
   call l9#defineVariableDefault('g:fuf_coveragefile_exclude'    , '\v\~$|\.(o|exe|dll|bak|orig|sw[po])$|(^|[/\\])\.(hg|git|bzr)($|[/\\])')
   call l9#defineVariableDefault('g:fuf_coveragefile_globPatterns', ['**/.*', '**/*'])
+  call l9#defineVariableDefault('g:fuf_coveragefile_ignore_regex', '\.\(exe\|dll\|bak\|orig\|sw[po]\)$\|\(^\|[/\\]\)\(\.hg\|\.git\|\.bzr\|\.bundle\|vendor\|node_modules\|bower_components\)\($\|[/\\]\)')
   "---------------------------------------------------------------------------
   call l9#defineVariableDefault('g:fuf_dir_prompt'     , '>Dir[]>')
   call l9#defineVariableDefault('g:fuf_dir_switchOrder', 40)
