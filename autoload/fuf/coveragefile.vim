@@ -56,9 +56,14 @@ function s:enumItems()
   let key = join([getcwd(), g:fuf_ignoreCase, g:fuf_coveragefile_exclude,
         \         g:fuf_coveragefile_globPatterns], "\n")
   if !exists('s:cache[key]')
-    let s:cache[key] = l9#concat(map(copy(g:fuf_coveragefile_globPatterns),
-          \                          'fuf#glob(v:val)'))
-    call filter(s:cache[key], 'filereadable(v:val)') " filter out directories
+    if has('unix')
+      let s:cache[key] = split(system(
+            \  "find . -type f | grep -v '\.svn' | grep -v '\.hg/.*\.i$' | grep -v '.*\.swp'"), "\n")
+    else
+      let s:cache[key] = l9#concat(map(copy(g:fuf_coveragefile_globPatterns),
+            \                          'fuf#glob(v:val)'))
+      call filter(s:cache[key], 'filereadable(v:val)') " filter out directories
+    endif
     call map(s:cache[key], 'fuf#makePathItem(fnamemodify(v:val, ":~:."), "", 0)')
     if len(g:fuf_coveragefile_exclude)
       call filter(s:cache[key], 'v:val.word !~ g:fuf_coveragefile_exclude')
