@@ -57,8 +57,12 @@ function s:enumItems()
         \         g:fuf_coveragefile_globPatterns], "\n")
   if !exists('s:cache[key]')
     if has('unix')
+      let ignore_string = " "
+      for ign in g:fuf_coveragefile_ignore_dirs
+        let ignore_string = ignore_string . "-not -path \"./" . ign . "\" "
+      endfor
       let s:cache[key] = split(system(
-            \  "find . -type f | grep -v '" . g:fuf_coveragefile_ignore_regex . "'"), "\n")
+            \  "find . -type f " . ignore_string ), "\n")
     else
       let s:cache[key] = l9#concat(map(copy(g:fuf_coveragefile_globPatterns),
             \                          'fuf#glob(v:val)'))
